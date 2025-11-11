@@ -1,0 +1,6 @@
+#!/bin/bash
+# Change wallpaper, then update Niri colors
+
+~/Documents/Scripts/swww-picker
+~/Documents/Scripts/niri-colors
+

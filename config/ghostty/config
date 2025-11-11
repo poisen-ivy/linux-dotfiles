@@ -1,0 +1,12 @@
+keybind = global:cmd+shift+r=reload_config
+keybind = global:cmd+backquote=toggle_quick_terminal
+confirm-close-surface = false
+clipboard-read = allow
+clipboard-write = allow
+copy-on-select = false
+window-vsync = false
+resize-overlay = never
+theme = wal
+cursor-style = block
+cursor-style-blink = true
+background-opacity = 0.85

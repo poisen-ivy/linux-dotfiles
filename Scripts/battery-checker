@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+# Get battery percentage using acpi
+BATTERY_LEVEL=$(acpi -b | grep "Battery 0" | grep -P -o '[0-9]+(?=%)')
+STATUS=$(acpi -b | awk -F': ' '{print $2}' | awk -F',' '{print $1}')
+
+# Set urgency based on level
+if [ "$BATTERY_LEVEL" -le 20 ]; then
+    URGENCY="critical"
+elif [ "$BATTERY_LEVEL" -le 40 ]; then
+    URGENCY="normal"
+else
+    URGENCY="low"
+fi
+
+# Send the notification via dunst
+notify-send -u "$URGENCY" -i battery "Charge: ${BATTERY_LEVEL}%" "Battery $STATUS"

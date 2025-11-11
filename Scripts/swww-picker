@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+# Rofi wallpaper picker for swww (hide extensions in menu)
+
+WALLPAPER_DIR="$HOME/Pictures/Wallpapers"
+shopt -s nullglob
+
+# Build arrays: display names (no extension) and actual files
+DISPLAY_NAMES=()
+FILES=()
+
+for FILE in "$WALLPAPER_DIR"/*.{jpg,jpeg,png}; do
+    [ -f "$FILE" ] || continue
+    BASENAME=$(basename "$FILE")
+    NAME="${BASENAME%.*}"  # strip extension
+    DISPLAY_NAMES+=("$NAME")
+    FILES+=("$BASENAME")
+done
+
+# Launch Rofi menu with display names
+CHOICE=$(printf "%s\n" "${DISPLAY_NAMES[@]}" | rofi -dmenu -i -p "Choose wallpaper")
+
+# Find the corresponding actual file
+if [ -n "$CHOICE" ]; then
+    for i in "${!DISPLAY_NAMES[@]}"; do
+        if [[ "${DISPLAY_NAMES[$i]}" == "$CHOICE" ]]; then
+            swww img "$WALLPAPER_DIR/${FILES[$i]}" --transition-type grow --transition-fps 60 --transition-duration 1 && wal -i "$WALLPAPER_DIR/${FILES[$i]}"
+            break
+        fi
+    done
+fi
+
